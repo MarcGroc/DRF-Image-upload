@@ -27,5 +27,5 @@
   - Dockerfile
   - docker-compose.yml
   - .dockerignore
-  - 
+
 - Created rest_api app
