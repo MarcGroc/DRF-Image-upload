@@ -1,8 +1,7 @@
 from django.conf import settings
-from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
-from django_resized import ResizedImageField
+from django.db import models
 from imagekit.models import ImageSpecField
 from pilkit.processors import ResizeToFill
 
@@ -10,20 +9,20 @@ from pilkit.processors import ResizeToFill
 class Image(models.Model):
     original_image = models.FileField(
         upload_to=settings.MEDIA_ROOT,
-        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png'])],
-        default='default.jpg'
+        validators=[FileExtensionValidator(allowed_extensions=["jpg", "png"])],
+        default="default.jpg",
     )
 
     t200 = ImageSpecField(
-        source='original_image',
+        source="original_image",
         processors=[ResizeToFill(200, 200)],
-        options={'quality': 100},
+        options={"quality": 100},
     )
 
     t400 = ImageSpecField(
-        source='original_image',
+        source="original_image",
         processors=[ResizeToFill(400, 400)],
-        options={'quality': 100},
+        options={"quality": 100},
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
