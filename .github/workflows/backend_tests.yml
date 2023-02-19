@@ -1,0 +1,64 @@
+name: backend-test
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          # TODO add secrets to github
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: cache poetry install
+        uses: actions/cache@v3
+        with:
+          path: ~/.local
+          key: poetry-1.2.1
+
+      - uses: snok/install-poetry@v1
+        with:
+          version: 1.2.1
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: cache deps
+        id: cache-deps
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: pydeps-${{ hashFiles('**/poetry.lock') }}
+
+      - run: poetry install --no-interaction --no-root
+        working-directory: .
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+
+
+      - run: poetry install --no-interaction
+        working-directory: .
+
+      - name: make migrations
+        working-directory: .
+        run: poetry run python manage.py makemigrations && 
+          poetry run python manage.py migrate
+
+      - name: run tests
+        working-directory: .
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: poetry run python manage.py test
+
