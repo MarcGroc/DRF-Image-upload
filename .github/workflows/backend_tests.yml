@@ -51,7 +51,7 @@ jobs:
         working-directory: .
 
       - name: make migrations
-        working-directory: .
+        working-directory: ./
         run: poetry run python manage.py makemigrations && 
           poetry run python manage.py migrate
 
