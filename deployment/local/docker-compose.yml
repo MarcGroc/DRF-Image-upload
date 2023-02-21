@@ -1,0 +1,89 @@
+version: '3.9'
+
+services:
+  db:
+    container_name: db
+    hostname: db
+    image: postgres:15.1-alpine
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+        - "5432:5432"
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+
+
+    networks:
+      - rest_api
+
+  backend:
+    container_name: rest_api
+    build:
+      context: ../../
+      dockerfile: ./deployment/local/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+        - media:/rest_api/media/
+    env_file:
+        - .env
+    networks:
+      - rest_api
+    depends_on:
+        - db
+    command: >
+      sh -c "poetry run python manage.py check_db &&
+             poetry run python manage.py makemigrations --noinput &&
+             poetry run python manage.py migrate --noinput &&
+             poetry run python manage.py check_or_create_user  &&
+             poetry run python manage.py runserver 0.0.0.0:8000"
+  
+
+  redis:
+    container_name: redis
+    hostname: redis
+    image: redis:7.0.0-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - ./redis_data:/redis_data
+    depends_on:
+      - db
+    networks:
+      - rest_api
+
+  celery:
+    container_name: celery
+    build:
+      context: ../../
+      dockerfile: ./deployment/local/Dockerfile.worker
+    env_file:
+        - .env
+    command: >
+        sh -c "poetry run celery -A recruitment_task worker -l info"
+    restart: always
+    volumes:
+        - media:/rest_api/media/
+
+    depends_on:
+        - redis
+        - backend
+    networks:
+        - rest_api
+
+volumes:
+    redis_data:
+    db_data:
+    media:
+
+networks:
+    rest_api:

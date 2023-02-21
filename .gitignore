@@ -633,4 +633,8 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-!/.env
+
+.env
+*/local/app_data/*
+*/local/data/*
+*/local/rails_app/*

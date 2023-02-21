@@ -14,9 +14,5 @@ RUN poetry config virtualenvs.create true  \
     && poetry config virtualenvs.in-project true  \
     && poetry install --no-interaction --no-ansi --no-root
 
+COPY ../../ .
 
-
-
-COPY ../../ /rest_api/
-
-EXPOSE 8000
