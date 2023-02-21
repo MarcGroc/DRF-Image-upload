@@ -29,14 +29,5 @@ migrations:
 	echo "Making app migrate"
 	python manage.py migrate
 
-# Docker commands
-build-backend:
-	docker build . -f deployment/backend/Dockerfile -t backend
 
-#build-task-runner:
-#	docker build . -f deployment/task_runner/Dockerfile -t task-runner
-#
-#docker-compose:
-#	docker-compose -f docker-compose.development.yml rm -s -v -f
-#	docker-compose -f docker-compose.development.yml up --build
 

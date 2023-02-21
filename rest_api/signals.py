@@ -1,10 +1,11 @@
-from django.db.models.signals import pre_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from rest_api.models import Image
 
+from .tasks import resize_image_task
 
-@receiver(pre_save, sender=Image)
-def create_thumbnails(sender, instance, **kwargs):
-    instance.t200.generate()
-    instance.t400.generate()
+
+@receiver(post_save, sender=Image)
+def resize_image(sender, instance, **kwargs):
+    resize_image_task.delay(instance.id)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import AccountTier, Image, Tier
+from .models import AccountTier, ArbitraryTier, Image, Tier
 
 
 @admin.register(Image)
@@ -15,10 +15,19 @@ class TierAdmin(admin.ModelAdmin):
         "thumbnail_200",
         "thumbnail_400",
         "original_image_link",
-        "link_expiration_time",
     ]
 
 
 @admin.register(AccountTier)
 class AccountTierAdmin(admin.ModelAdmin):
-    list_display = ["user", "tier"]
+    list_display = ["user", "tier", "id"]
+
+
+@admin.register(ArbitraryTier)
+class ArbitraryTierAdmin(admin.ModelAdmin):
+    list_display = [
+        "name",
+        "thumbnail_size",
+        "original_image_link",
+        "link_expiration_time",
+    ]

@@ -24,6 +24,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'rest_api.apps.RestApiConfig',
+    'rest_api.management.commands',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,7 +32,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'drf_spectacular',
 
 
 ]
@@ -126,27 +126,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    # TODO change Permission after testing
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.AllowAny",
-        # "rest_framework.permissions.IsAuthenticated",
+        # "rest_framework.permissions.AllowAny",
+        "rest_framework.permissions.IsAuthenticated",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        # "rest_framework.authentication.BasicAuthentication",
-        # "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ],
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
-SPECTACULAR_SETTINGS = {
-    "TITLE": "Recruitment Task API",
-    "DESCRIPTION": "Documentation for the Recruitment Task API",
-    "VERSION": "1.0.0",
-    "SERVE_INCLUDE_SCHEMA": False,
-    "SERVE_AUTHENTICATION": None,
-    "SWAGGER_UI_SETTINGS": {
-        "deepLinking": True,
-        "persistAuthorization": True,
-        "displayRequestDuration": True,
-    },
-}
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND')
