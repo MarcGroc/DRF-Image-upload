@@ -4,14 +4,9 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from rest_api.views.image import ImageList
-from rest_api.views.tier import AccountTierViewSet, ArbitraryTierViewSet, TierViewSet
 
 router = DefaultRouter()
-router.register(r"tier", TierViewSet, basename="tier")
 router.register(r"image", ImageList, basename="image")
-router.register(r"account-tier", AccountTierViewSet, basename="account-tier")
-router.register(r"arbitrary-tier", ArbitraryTierViewSet, basename="arbitrary-tier")
-
 
 urlpatterns = [
     path("api/", include(router.urls)),
