@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from rest_api.models import ArbitraryTier, Image, Tier
+from rest_api.models import Image, Tier
 
 
 class ImageModelTest(TestCase):
@@ -78,33 +78,3 @@ class AccountTierModelTest(TestCase):
     def test_account_tier_model_data_should_be_valid(self):
         self.assertEqual(self.account_tier["user"], self.user.pk)
         self.assertEqual(self.account_tier["tier"], self.tier.pk)
-
-
-class ArbitraryTierModelTest(TestCase):
-    def setUp(self):
-        self.tier = {
-            "name": "test",
-            "thumbnail_size": 200,
-            "original_image_link": True,
-            "link_expiration_time": 300,
-        }
-
-    def test_arbitrary_tier_model_data_should_be_valid(self):
-        self.assertEqual(self.tier["name"], "test")
-        self.assertEqual(self.tier["thumbnail_size"], 200)
-        self.assertEqual(self.tier["original_image_link"], True)
-        self.assertEqual(self.tier["link_expiration_time"], 300)
-
-    def test_should_raise_error_if_thumbnail_size_is_not_200_or_400(self):
-        self.tier["thumbnail_size"] = 100
-        self.assertRaises(ValueError, ArbitraryTier.objects.create, **self.tier)
-        self.tier["thumbnail_size"] = 300
-        self.assertRaises(ValueError, ArbitraryTier.objects.create, **self.tier)
-
-    def test_should_raise_error_if_link_expiration_time_is_not_between_300_and_3000(
-        self,
-    ):
-        self.tier["link_expiration_time"] = 299
-        self.assertRaises(ValueError, ArbitraryTier.objects.create, **self.tier)
-        self.tier["link_expiration_time"] = 3001
-        self.assertRaises(ValueError, ArbitraryTier.objects.create, **self.tier)

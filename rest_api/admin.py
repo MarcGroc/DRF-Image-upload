@@ -5,7 +5,14 @@ from .models import AccountTier, ArbitraryTier, Image, Tier
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ["uploaded_by", "created_at", "original_image", "t200", "t400"]
+    list_display = [
+        "uploaded_by",
+        "created_at",
+        "original_image",
+        "t200",
+        "t400",
+        "link_expiration_time",
+    ]
 
 
 @admin.register(Tier)
