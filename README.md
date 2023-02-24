@@ -20,8 +20,12 @@ DJANGO_SUPERUSER_PASSWORD="apitask123"
 - Go to ``http://localhost:8000/api`` to access api
 - Login with ``admin`` user and password ``apitask123``
 - Create tier in django admin panel (Basic, Premium, Enterprise)
+- Assign tier to user in django admin panel (Account tiers)
 - Now you can upload image and get response with image options at ``http://localhost:8000/api/image/``
 - Response will be based on tier assigned to account 
 
 # Detailed documentation
 - Detailed documentation can be found in [docs](docs) folder.
+
+# Time to complete task
+- about 25 hours

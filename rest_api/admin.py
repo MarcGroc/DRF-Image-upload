@@ -31,13 +31,3 @@ class TierAdmin(admin.ModelAdmin):
 @admin.register(AccountTier)
 class AccountTierAdmin(admin.ModelAdmin):
     list_display = ["user", "tier", "id"]
-
-
-# @admin.register(ArbitraryTier)
-# class ArbitraryTierAdmin(admin.ModelAdmin):
-#     list_display = [
-#         "name",
-#         "thumbnail_size",
-#         "original_image_link",
-#         "link_expiration_time",
-#     ]

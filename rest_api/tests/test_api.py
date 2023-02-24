@@ -5,12 +5,15 @@ from unittest import TestCase
 from django.contrib.admin import AdminSite
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
+
 # from django.urls import reverse
 from PIL import Image as PILImage
-# from rest_framework.test import APITestCase
 
 from rest_api.admin import AccountTierAdmin, TierAdmin
 from rest_api.models import AccountTier, Tier
+
+
+# from rest_framework.test import APITestCase
 
 
 def fake_image():

@@ -1,12 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
 
-from rest_api.models import AccountTier, ArbitraryTier, Tier
-from rest_api.serializers.tier import (
-    AccountTierSerializer,
-    ArbitraryTierSerializer,
-    TierSerializer,
-)
+from rest_api.models import AccountTier, Tier
+from rest_api.serializers.tier import AccountTierSerializer, TierSerializer
 
 
 class TierViewSet(viewsets.ModelViewSet):
@@ -23,11 +19,3 @@ class AccountTierViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
     queryset = AccountTier.objects.select_related()
     serializer_class = AccountTierSerializer
-
-
-class ArbitraryTierViewSet(viewsets.ModelViewSet):
-    """ViewSet for ArbitraryTier model"""
-
-    permission_classes = [IsAdminUser]
-    queryset = ArbitraryTier.objects.select_related()
-    serializer_class = ArbitraryTierSerializer
