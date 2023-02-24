@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from rest_api.models import AccountTier, ArbitraryTier, Tier
+from rest_api.models import AccountTier, Tier
 
 
 class TierSerializer(serializers.ModelSerializer):
@@ -18,10 +18,3 @@ class AccountTierSerializer(serializers.ModelSerializer):
         model = AccountTier
         fields = "__all__"
 
-
-class ArbitraryTierSerializer(serializers.ModelSerializer):
-    """Serializer for ArbitraryTier model"""
-
-    class Meta:
-        model = ArbitraryTier
-        fields = "__all__"
