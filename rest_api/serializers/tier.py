@@ -17,4 +17,3 @@ class AccountTierSerializer(serializers.ModelSerializer):
     class Meta:
         model = AccountTier
         fields = "__all__"
-
